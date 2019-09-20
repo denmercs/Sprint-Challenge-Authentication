@@ -2,18 +2,6 @@ const request = require("supertest");
 
 const server = require("./server");
 
-// describe("auth-router.js", () => {
-//   describe("GET /users", () => {
-//     it("returns 200", () => {
-//       return request(authRoute)
-//         .get("/users")
-//         .then(res => {
-//           expect(res.status).toBe(200);
-//         });
-//     });
-//   });
-// });
-
 describe("GET /", () => {
   it("res.status to be 200", () => {
     return request(server)
@@ -28,6 +16,26 @@ describe("GET /", () => {
       .get("/")
       .then(res => {
         expect(res.body).toEqual({ message: "Up and running!" });
+      });
+  });
+});
+
+describe("GET /api/jokes", () => {
+  it("returns JSON", done => {
+    request(server)
+      .get("/api/jokes")
+      .then(res => {
+        expect(res.type).toMatch(/json/i);
+        done();
+      });
+  });
+
+  it("authorization login", () => {
+    return request(server)
+      .get("/api/jokes")
+      .then(res => {
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe("no credentials provided");
       });
   });
 });
