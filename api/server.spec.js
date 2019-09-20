@@ -55,7 +55,7 @@ describe("/api/auth/login", () => {
   it("registering a new user", () => {
     return request(server)
       .post("/api/auth/register")
-      .send({ username: "newguynow2", password: "1234asdf" })
+      .send({ username: "newguynow3", password: "1234asdf" })
       .then(res => {
         expect(res.status).toBe(201);
       });
