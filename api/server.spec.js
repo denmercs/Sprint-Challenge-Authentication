@@ -20,6 +20,7 @@ describe("GET /", () => {
   });
 });
 
+// jokes
 describe("GET /api/jokes", () => {
   it("returns JSON", done => {
     request(server)
@@ -36,6 +37,35 @@ describe("GET /api/jokes", () => {
       .then(res => {
         expect(res.status).toBe(400);
         expect(res.body.message).toBe("no credentials provided");
+      });
+  });
+});
+
+// login
+describe("/api/auth/login", () => {
+  it("returns json", done => {
+    request(server)
+      .post("/api/auth/login")
+      .send({ username: "newguynow", password: "1234asdf" })
+      .then(res => {
+        expect(res.type).toMatch(/json/i);
+        done();
+      });
+  });
+  it("registering a new user", () => {
+    return request(server)
+      .post("/api/auth/register")
+      .send({ username: "newguynow2", password: "1234asdf" })
+      .then(res => {
+        expect(res.status).toBe(201);
+      });
+  });
+  it("returns status should be 200", () => {
+    return request(server)
+      .post("/api/auth/login")
+      .send({ username: "newguynow", password: "1234asdf" })
+      .then(res => {
+        expect(res.status).toBe(200);
       });
   });
 });
